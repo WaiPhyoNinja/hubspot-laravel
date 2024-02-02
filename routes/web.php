@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HubSpotLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,10 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/hubspot/login', [HubSpotLoginController::class, 'redirectToHubSpot'])->name('hubspot.login');
+Route::get('/hubspot/callback', [HubSpotLoginController::class, 'handleHubSpotCallback']);
+
 
 //DISPLAY HUBSPOT USERS
 Route::get('/users', [UserController::class, 'displayUser'])->name('display.user');

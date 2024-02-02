@@ -9,6 +9,8 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -64,31 +66,84 @@ class UserController extends Controller
   public function storeContact(Request $request)
   {
     try {
+        // $data = [
+        //     'properties' => [
+        //         [
+        //             'property' => 'email',
+        //             'value' => $request->email
+        //         ],
+        //         [
+        //             'property' => 'firstname',
+        //                 'value' => $request->firstname
+        //         ],
+        //         [
+        //             'property' => 'lastname',
+        //             'value' => $request->lastname
+        //         ],
+        //         [
+        //             'property' => 'phone',
+        //             'value' => $request->phone
+        //         ],
+        //     ],
+        // ];
+        // $post_json = json_encode($data);
 
-        $data = [
-            'properties' => [
-                [
+        // createHubSpotContact($post_json);
+
+        // $arr = [
+        //     'properties' => [
+        //         'firstname' => $request['firstname'],
+        //         'lastname' => $request['lastname'],
+        //         'phone' => $request['phone'],
+        //         'email' => $request['email'],
+        //     ],
+        // ];
+
+        // $endpoint = 'https://api.hubapi.com/crm/v3/objects/contacts?hapikey=pat-na1-9588fc02-c857-412d-abf4-936152d5527c';
+        // $client = new Client();
+
+        // $res = $client->request('POST', $endpoint, [
+        //     'json' => $arr,
+        // ]);
+
+        $arr = array(
+            'properties' => array(
+                array(
                     'property' => 'email',
-                    'value' => $request->email
-                ],
-                [
+                    'value' => 'apitest@hubspot.com'
+                ),
+                array(
                     'property' => 'firstname',
-                     'value' => $request->first_name
-                ],
-                [
+                    'value' => 'hubspot'
+                ),
+                array(
                     'property' => 'lastname',
-                    'value' => $request->last_name
-                ],
-                [
+                    'value' => 'user'
+                ),
+                array(
                     'property' => 'phone',
-                    'value' => $request->phone
-                ],
-            ],
-        ];
+                    'value' => '555-1212'
+                )
+            )
+        );
+        $post_json = json_encode($arr);
+        $hapikey = readline("Enter hapikey: (demo for the demo portal): ");
+        $endpoint = 'https://api.hubapi.com/crm/v3/objects/contacts?hapikey=pat-na1-9588fc02-c857-412d-abf4-936152d5527c';
+        $ch = @curl_init();
+        @curl_setopt($ch, CURLOPT_POST, true);
+        @curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+        @curl_setopt($ch, CURLOPT_URL, $endpoint);
+        @curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = @curl_exec($ch);
+        $status_code = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($ch);
+        @curl_close($ch);
+        echo "curl Errors: " . $curl_errors;
+        echo "\nStatus code: " . $status_code;
+        echo "\nResponse: " . $response;
 
-        createHubSpotContact($data);
-
-        return back()->with('success', 'Contact created successfully');
+        return "Contact Created!";
     } catch (\Exception $e) {
         echo 'Error : '.$e->getMessage();
     }

@@ -1,6 +1,5 @@
 <?php
 
-use Log;
 use HubSpot\Factory;
 use App\Models\HubspotContact;
 use HubSpot\Client\Crm\Contacts\ApiException;
@@ -27,10 +26,10 @@ if (!function_exists('createHubSpotContact')) {
         try {
 
             $response = $client->crm()->contacts()->basicApi()->create($data);
-            Log::info('HubSpot API Response: ' . json_encode($response));
+            // Log::info('HubSpot API Response: ' . json_encode($response));
         } catch (ApiException $e) {
             // Log or handle the exception appropriately
-            \Log::error('HubSpot API Error: ' . $e->getMessage());
+            // \Log::error('HubSpot API Error: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to create contact'], 500);
 
         }
