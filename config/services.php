@@ -36,4 +36,5 @@ return [
         'client_secret' => env('HUBSPOT_CLIENT_SECRET'),
         'redirect' => env('HUBSPOT_REDIRECT_URI'),
     ],
+
 ];

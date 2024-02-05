@@ -38,6 +38,36 @@ class UserController extends Controller
     }
   }
 
+  public function productLists(Request $request)
+  {
+    try {
+        $productsResource = collect(getProduct());
+        $apiResponse = $productsResource->map(function ($product){
+            return [
+                'id' => $product['id'],
+                'name' => $product['properties']['name'] ?? '',
+                'properties_with_history' => $product['properties_with_history'],
+                'description' => $product['properties']['description'] ?? '',
+                'price' => $product['properties']['price'] ?? '',
+                'createdate' => $product['properties']['createdate'] ?? '',
+                'archived' => $product['archived'] ?? ''
+              ];
+        });
+        // dd($apiResponse);
+        if ($request->ajax()) {
+            return Datatables::of($apiResponse)->addIndexColumn()
+              ->make(true);
+          }
+          return view('products');
+
+        // return $apiResponse->getData();
+    } catch (\Exception $e) {
+        // Handle exceptions
+        echo "Exception when calling products API: " . $e->getMessage();
+    }
+
+  }
+
   /**
    * This function is used to display contact list from hubspot
    *
@@ -47,7 +77,15 @@ class UserController extends Controller
   {
     return view('home');
   }
-
+    // /**
+    //  * This function is used to display contact list from hubspot
+    //  *
+    //  * @return View
+    //  */
+    // public function products(): View
+    // {
+    //     return view('products');
+    // }
   /**
    * This function is used to display
    *

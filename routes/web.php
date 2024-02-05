@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HubSpotLoginController;
+use App\Http\Controllers\HubSpotAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +16,14 @@ use App\Http\Controllers\HubSpotLoginController;
 |
 */
 
-Route::get('/hubspot/login', [HubSpotLoginController::class, 'redirectToHubSpot'])->name('hubspot.login');
-Route::get('/hubspot/callback', [HubSpotLoginController::class, 'handleHubSpotCallback']);
+Route::get('/hubspot/auth', [HubSpotAuthController::class, 'redirectToHubSpot'])->name('auth.login');
+Route::get('/hubspot/callback', [HubSpotAuthController::class, 'handleCallback']);
+
 
 
 //DISPLAY HUBSPOT USERS
 Route::get('/users', [UserController::class, 'displayUser'])->name('display.user');
+Route::get('/products', [UserController::class, 'productLists'])->name('display.products');
 //HUBSPOT USERS
 Route::get('/hubspot-user', [UserController::class, 'userList'])->name('hubspot.user');
 //SIGNUP NEWS LETTER To CREATE USER

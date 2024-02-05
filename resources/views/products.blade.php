@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Sign Up News</title>
+    <title>Hubspot User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -19,15 +19,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 </head>
-<style>
-    /* Center the form container */
-</style>
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
 <body>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -51,53 +42,45 @@
                         </li>
                     </ul>
                 </div>
+
             </div>
         </nav>
     </div>
-    <div id="form-container" class="container mt-5 text-center">
-        <!-- Embeded Sign Up HubSpot form code here -->
-        <a href="{{ route('auth.login') }}">Login with HubSpot</a>
-
-        <!-- End Here -->
-        {{-- <div id="hubspot-form-container">
-            <div class="card mt-5">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Enter Details</h5>
-                </div>
-                <div class="card-body">
-                    <form id="hubspot-contact-form" method="POST" action="{{ route('store.user') }}">
-                        @csrf <!-- Add CSRF token for security -->
-                        <div class="form-group row">
-                            <label for="firstname" class="col-sm-3 col-form-label text-right">First Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="firstname" name="firstname" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="lastname"  class="col-sm-3 col-form-label text-right">Last Name</label>
-                            <div class="col-sm-9">
-                            <input type="text" class="form-control" id="lastname" name="lastname" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="email"  class="col-sm-3 col-form-label text-right">Email Address</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="phone" class="col-sm-3 col-form-label text-right">Phone Number</label>
-                            <div class="col-sm-9">
-                                <input type="tel" class="form-control" id="phone" name="phone">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div> --}}
-
+    <div class="container mt-3">
+        <table class="table table-responsive table-hover user_datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>description</th>
+                    <th>Created Date</th>
+                    <th>properties_history</th>
+                    <th>Archived</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.user_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('display.products') }}",
+                columns: [
+                    { data: 'id'},
+                    { data: 'name'},
+                    { data: 'price' },
+                    { data: 'description' },
+                    { data: 'createdate' },
+                    { data: 'properties_with_history' },
+                    { data: 'archived' }
+                ]
+            });
+        });
+    </script>
 </body>
 </html>

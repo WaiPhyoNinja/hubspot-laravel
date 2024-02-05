@@ -19,6 +19,20 @@ if (!function_exists('getContact')) {
     }
 }
 
+if (!function_exists('getProduct')) {
+
+    function getProduct()
+    {
+        $client = Factory::createWithAccessToken(env('HUBSPOT_ACCESS_TOKEN'));
+        try {
+            $apiResponse = $client->crm()->products()->basicApi()->getPage(100,true);
+            return $apiResponse['results'];
+        } catch (ApiException $e) {
+            echo "Exception when calling basic_api->get_page: ", $e->getMessage();
+        }
+    }
+}
+
 if (!function_exists('createHubSpotContact')) {
     function createHubSpotContact($data)
     {

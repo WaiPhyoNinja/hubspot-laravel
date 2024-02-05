@@ -34,11 +34,15 @@
                         <li class="nav-item p-2 pl-5">
                             <a class="nav-link active" aria-current="page" href="/users">Home</a>
                         </li>
+                        <li>
+                            <a class="nav-link active" aria-current="page" href="/products">Products</a>
+                        </li>
                         <li class="nav-item p-2 pl-5">
                             <a class="nav-link active" aria-current="page" href="/signup-news">Signup News</a>
                         </li>
                     </ul>
                 </div>
+
             </div>
         </nav>
     </div>
